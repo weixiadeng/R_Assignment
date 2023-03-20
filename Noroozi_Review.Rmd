@@ -1,0 +1,23 @@
+---
+title: "Noroozi_Review"
+author: "Kimia Noroozi"
+date: "2023-03-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#The data inspection part was not included in the codes. You can use the following codes for that part:
+```{r}
+typeof()
+length()
+dim()
+str()
+etc...
+```
+#Data inspection and visualization looks great. Just one note: When I ran the code, all the new files were stored on my memory. I think it would be nice if you could avoid that. 
+
+
+``

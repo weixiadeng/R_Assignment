@@ -8,10 +8,55 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Data Processing
+# Part I
+
+## Data Inspection
+
+### Genotype Data
+
+```{r, message=FALSE, results='hold'}
+library(tidyverse)
+file.info("fang_et_al_genotypes.txt")$size
+# Read fang_et_al_genotypes file
+fang <- read.table("fang_et_al_genotypes.txt", sep = "\t", header = TRUE)
+dim(fang)
+```
+
+The `fang_et_al_genotypes.txt` file size is 11051939 bytes and has 986 columns and 2782 observations.
+
+```{r}
+fang$Group <- as.factor(fang$Group)
+table(fang$Group)
+```
+
+The frequency count of each group is shown above.
+
+```{r}
+str(fang[,1:15])
+```
+
+Partial data structure of genotype data is shown above.
+
+### SNP Data
+
+```{r, results='hold'}
+file.info("snp_position.txt")$size
+# Read SNP file
+snp <- read.table("snp_position.txt", sep = "\t", header = TRUE)
+dim(snp)
+```
+
+The `snp_position.txt` file size is 82763 and has 15 columns and 983 observations.
+
+```{r}
+str(snp)
+```
+
+The data structure of SNP data is shown above.
+
+## Data Processing
 
 ```{r, eval=FALSE}
-library(tidyverse)
 # Read fang_et_al_genotypes file
 fang <- read.table("fang_et_al_genotypes.txt", sep = "\t", header = TRUE)
 # Group of maize and teosinte
@@ -91,7 +136,11 @@ for (i in 1:10){
 }
 ```
 
-# Data Visualization
+# Part II
+
+## Data Visualization
+
+### SNPs per chromosome (on and across chromosomes)
 
 ```{r, results='hold', message=FALSE}
 library(tidyverse)
@@ -146,7 +195,11 @@ freq$Group <- as.factor(freq$Group)
 ggplot(freq, aes(x = ., y = Freq, fill = Group)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   labs(title = "Across chromosome", x = "Genotype", y = "SNP Count")
+```
 
+### Missing data and amount of heterozygosity
+
+```{r}
 # Missing data and amount of heterozygosity
 proportion <- list(Group = c(), Genotype = c(), Prop = c())
 homozygous <- c("A/A", "C/C", "G/G", "T/T")
@@ -196,4 +249,16 @@ ggplot(proportion, aes(x = Genotype, y = Prop, fill = Group)) +
        x = "Genotype", y = "%")
 ```
 
+**Summary of above plots:** Over all, there more SNP positions in maize than teosinte individuals. And there are more homozygous than heterozygous in both maize and teosinte.
 
+### Your own visualization
+
+```{r, results='hold'}
+maize$Chromosome <- as.factor(maize$Chromosome)
+ggplot(maize, aes(x = Position, color = Chromosome)) + geom_density() + 
+  labs(title = "Density of SNP Position by Chromosome for Maize")
+
+teosinte$Chromosome <- as.factor(teosinte$Chromosome)
+ggplot(teosinte, aes(x = Position, color = Chromosome)) + geom_density() +
+  labs(title = "Density of SNP Position by Chromosome for Teosinte")
+```

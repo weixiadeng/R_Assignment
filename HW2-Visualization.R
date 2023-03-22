@@ -97,4 +97,8 @@ ggplot(proportion, aes(x = Genotype, y = Prop, fill = Group)) +
   labs(title = "Proportion of Heterozygosity by Group",
        x = "Genotype", y = "%")
 
-
+# Own visualization
+maize$Chromosome <- as.factor(maize$Chromosome)
+ggplot(maize, aes(x = Position, color = Chromosome)) + geom_density()
+teosinte$Chromosome <- as.factor(teosinte$Chromosome)
+ggplot(teosinte, aes(x = Position, color = Chromosome)) + geom_density()
